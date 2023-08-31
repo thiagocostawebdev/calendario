@@ -28,13 +28,13 @@
   }
   
   .days {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
     background-color: #e0e0e0;
   }
   
   .day {
-    width: 28px;
     height: 28px;
     line-height: 28px;
     text-align: center;

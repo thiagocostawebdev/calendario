@@ -9,53 +9,11 @@ class calendario{
                 <meta charset='UTF-8'>
                 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <link rel='icon' href='./img/bootstrap-icons/person-check-fill.svg'>
+                <link rel='icon' href='./img/bootstrap-icons/calendar-date-fill.svg'>
                 <title>Calendario</title>
                 <link href='./css/calendario.css' rel='stylesheet'>
             </head>";        
         echo $head;
-    }
-
-    function geracelndario($mes,$ano){
-        $nomeMes=array("Janeiro", "Fevereiro", "Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro");
-        ?>
-        <div class="calendar">
-            <div class="header"><?php echo $nomeMes[$mes-1]." $ano"; ?></div>
-            <div class="days">
-            <div class="day">S</div>
-            <div class="day">M</div>
-            <div class="day">T</div>
-            <div class="day">W</div>
-            <div class="day">T</div>
-            <div class="day">F</div>
-            <div class="day">S</div>
-        </div>
-        <div class="dates">
-            <?php
-                
-
-                // Get the current month and year
-
-                // Get the total number of days in the current month
-                $totalDays = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
-
-                // Get the first day of the month
-                $firstDay = date("N", strtotime($ano . '-' . $mes . '-01'));
-
-                // Display empty cells for the days before the first day of the month
-                for ($i = 1; $i < $firstDay; $i++) {
-                echo '<div class="date"></div>';
-                }
-
-                // Display the calendar dates
-                for ($day = 1; $day <= $totalDays; $day++) {
-                echo '<div class="date">' . $day . '</div>';
-                }
-            ?>
-            </div>
-        </div>
-        <?php
-        
     }
 
     function geraDias($mes,$ano){
@@ -66,6 +24,9 @@ class calendario{
         for ($i ;$i < $firstDay; ) {
             $dias[$i]=0;
             $i++;
+            }
+            if($i==7){
+                $i = 0;
             }
         for ($day = 1; $day <= $totalDays; $day++) {
                 $dias[$i]= $day;
@@ -81,26 +42,26 @@ class calendario{
         
         <div class = "calendar">
             <div class="header">
-                <img src="./img/bootstrap-icons/arrow-left-square-fill.svg">
+                <img src="./img/bootstrap-icons/arrow-left-square-fill.svg" onclick="carregaDias(-1)">
                 <div id = "mes">Gerado por JS</div>
-                <img src="./img/bootstrap-icons/arrow-right-square-fill.svg">
+                <img src="./img/bootstrap-icons/arrow-right-square-fill.svg" onclick="carregaDias(1)">
             </div>
             <div class="days">
-            <div class="day">S</div>
-            <div class="day">M</div>
-            <div class="day">T</div>
-            <div class="day">W</div>
-            <div class="day">T</div>
-            <div class="day">F</div>
-            <div class="day">S</div>
+            <div class="day">Domingo</div>
+            <div class="day">Segunda</div>
+            <div class="day">Terça</div>
+            <div class="day">Quarta</div>
+            <div class="day">Quinta</div>
+            <div class="day">Sexta</div>
+            <div class="day">Sabado</div>
             </div>
             <div class="dates" id="dates"></div>
         </div>
         <div class = "eventos">
-            <div>Lista de Eventos</div>
+            <div class="headerEvents">Lista de Eventos</div>
+            <div id="listaEventos"></div>
         </div>
         <script src="./js/calendario.js"></script><?php
-        //$this->geracelndario(9,2023);
     }
 }
 ?>
