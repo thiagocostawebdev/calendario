@@ -1,0 +1,75 @@
+.topo{
+  width: calc(100vw-8px);
+  background-color: #ccc;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+}
+.calendar {
+    float: left;
+    width: 40vw;
+    height: 40vw;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+    margin-bottom: 10px;
+  }
+  
+  .header {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .header img{
+    height: 100%;
+  }
+  
+  .days {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e0e0e0;
+  }
+  
+  .day {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .dates {
+    height: 91%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background-color: #fff;
+  }
+  
+  .date {
+    /*width: 28px;
+    height: 28px;*/
+    line-height: 28px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .date:not(.current-month) {
+    color: #999;
+  }
+  
+  .date:hover {
+    background-color: #00eeff;
+  }
+  
+.eventos{
+  float: right;
+  width: 50vw;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
