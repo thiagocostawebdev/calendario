@@ -1,29 +1,80 @@
 var datas = document.getElementById("dates");
-var divEventos = document.getElementById("listaEventos");
+var blocoEventos = document.getElementById("blocoEventos");
 var exibeMes = document.getElementById("mes");
+var inputText = document.getElementById("inputText");;
 var meses = ["Janeiro", "Fevereiro", "Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-var dias = [0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
 const d = new Date();
 var anoExibido = d.getFullYear();
 var mesExibido = d.getMonth()+1;
+var diaAtual = d.getDate();
 var listaEventos = [];
+var diaSelecionado = [anoExibido,mesExibido,0];
 
 function geracalendario(mes){
     var text = "";
     exibeMes.innerHTML = `${meses[mesExibido-1]} ${anoExibido}`;
     for (x in mes) {
+        var data_x= converteData([anoExibido,mesExibido,mes[x]]);
         if (parseInt(mes[x])==0){
             text +=`<div class = 'date'"></div>`;
         }else{
-            text +=`<div class = 'date' onclick='listarEventos(${mes[x]})' ">${mes[x]}</div>`;
+            if (mes[x]==diaAtual && mesExibido == d.getMonth()+1 && anoExibido == d.getFullYear() ){
+                text +=`<div class = 'date' id = 'day${data_x}' onclick='selecionaDia(${mes[x]})' style='border: 1px solid blue;'">${mes[x]}</div>`;
+            }else{
+                text +=`<div class = 'date' id = 'day${data_x}' onclick='selecionaDia(${mes[x]})' ">${mes[x]}</div>`;
+            }
         }
     }
     datas.innerHTML = text; 
 }
 
-function listarEventos(a){
-    listaEventos.push(a);
-    divEventos.innerHTML = listaEventos.toString();
+function addEnventos(){
+    var saida = converteData(diaSelecionado);
+    listaEventos.push({data: saida,evento:inputText.value});
+    salvaEventos(inputText.value);
+    listarEventos();
+}
+
+function delEventos(a,alvo){
+    listaEventos.splice(a,1);
+    removeEventos(alvo);
+    listarEventos();
+}
+
+function selecionaDia(dia){
+    var data_x = converteData([anoExibido,mesExibido,diaSelecionado[2]]);
+    if (diaSelecionado[2]!=0){
+        document.getElementById(`day${data_x}`).style.backgroundColor = "";
+    }
+    diaSelecionado[2] = dia;
+    data_x = converteData([anoExibido,mesExibido,dia]);
+    document.getElementById(`day${data_x}`).style.backgroundColor = "#ccc";
+    carregaEventos(converteData(diaSelecionado));
+}
+
+function listarEventos(){
+    var dia_evento = null;
+    var saida = "";
+    for (eventos in listaEventos){
+        saida += `<div class="evento" id="evento${eventos}">${listaEventos[eventos]["data"]} ${listaEventos[eventos]["evento"]}<img src="./img/bootstrap-icons/trash-fill.svg" onclick="delEventos(${eventos},${listaEventos[eventos]["id"]})"></div>`;
+        var dia_evento = document.getElementById(`day${listaEventos[eventos]["data"]}`);
+        if (dia_evento != null){
+            dia_evento.style.color = "red";
+        }
+    }
+    blocoEventos.innerHTML = saida;
+}
+
+function carregaEventos(dia){
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        var saida = [];
+        saida = JSON.parse(xhttp.responseText);
+        listaEventos = saida;
+        listarEventos();
+    }
+    xhttp.open("GET", `http://localhost/calendario/listareventos/listareventos/${dia}`, true);
+    xhttp.send();
 }
 
 function carregaDias(mod){
@@ -36,13 +87,55 @@ function carregaDias(mod){
         mesExibido = 12;
         anoExibido = anoExibido - 1;
     }
+    diaSelecionado = [anoExibido,mesExibido,0];
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         var saida = JSON.parse(xhttp.responseText);
         geracalendario(saida);
-      }
+        carregaEventos(converteData(diaSelecionado));
+    }
     xhttp.open("GET", `http://localhost/calendario/calendario/geraDias/${mesExibido}/${anoExibido}`, true);
     xhttp.send();
 } 
 
-geracalendario(dias);
+function converteData(data){
+    var saida = data[0]+"";
+    for (i = 1;i<3;i++){
+        if (data[i]<10){
+            saida += "0"+data[i];
+        }else{
+            saida += data[i];
+        }
+    }
+    return saida;
+}
+
+function salvaEventos(text){
+    if (text!=""){
+    var data = new FormData();
+    data.append('data', converteData(diaSelecionado));
+    data.append('evento', text);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost/calendario/salvaeventos/', true);
+    xhr.onload = function () {
+        console.log(this.responseText);
+    };
+    xhr.send(data);
+    }
+}
+
+function removeEventos(text){
+    if (text!=""){
+        var data = new FormData();
+        data.append('id', text);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost/calendario/remeventos/', true);
+        xhr.onload = function () {
+            console.log(this.responseText);
+        };
+        xhr.send(data);
+        }
+}
+
+carregaDias(0);

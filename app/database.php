@@ -2,21 +2,18 @@
 
 class Database {
     private $servername = "127.0.0.1";
-    private $username = "root";
-    private $password = "";
+    private $username = "calendario";
+    private $password = "calendario-01";
     private $stmt;
     private $conn;
     
     public function __construct(){
-        echo "<script>console.log('Classe Carregada');</script>";
         try {
-            $this->conn = new PDO("mysql:host=".$this->servername.";dbname=portfolio", $this->username, $this->password);
+            $this->conn = new PDO("mysql:host=".$this->servername.";dbname=calendario", $this->username, $this->password);
           // set the PDO error mode to exception
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "<script>console.log('Connection Sucessfull');</script>";
         } catch(PDOException $e){
             //echo "Connection failed: " . $e->getMessage();
-            echo "<script>console.log('Connection Failed');</script>";
         }
     }
 
@@ -51,13 +48,11 @@ class Database {
     }
 
     public function resultado(){
-        $this.executa();
-        return $this->stmt->fetch(PDO::FETCH_OBJ);
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function resultados(){
-        $this.executa();
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function totalResultados(){
