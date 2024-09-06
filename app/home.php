@@ -11,7 +11,8 @@ class home{
                 <link rel='icon' href='./img/bootstrap-icons/calendar-date-fill.svg'>
                 <title>Calendario</title>
                 <link href='./css/calendario.css' rel='stylesheet'>
-            </head>";        
+                <link href='https://fonts.googleapis.com/css?family=Tac One' rel='stylesheet'>
+                </head>";        
         echo $head;
     }
 

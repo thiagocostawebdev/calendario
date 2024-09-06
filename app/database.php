@@ -2,8 +2,8 @@
 
 class Database {
     private $servername = "127.0.0.1";
-    private $username = "calendario";
-    private $password = "calendario-01";
+    private $username = "default";
+    private $password = "1-default";
     private $stmt;
     private $conn;
     

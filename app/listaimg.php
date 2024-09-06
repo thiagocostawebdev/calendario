@@ -8,12 +8,13 @@ class listaimg{
         if (is_dir($dir)){
             if ($dh = opendir($dir)){
                 $i = 0;
-                while (($file = readdir($dh)) !== false){
+                while (($file = readdir($dh)) !== false and $i < 10){
                     if ($this->filtratipo($file)){
                         $i++;
                         echo '<div class=divImage>';
                         echo '<div> ./img/bootstrap-icons/'.$file.' </div>';
-                        echo '<img class="imagem" src="./img/bootstrap-icons/'.$file.'">';
+                        echo '<object type="image/svg+xml" data="./img/bootstrap-icons/'.$file.'"></object>';
+                        //echo '<img class="imagem" src="./img/bootstrap-icons/'.$file.'">';
                         echo '</div>';
                     }
                 }

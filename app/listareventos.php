@@ -12,9 +12,9 @@ class listareventos{
         require_once "../calendario/app/database.php";
         $db = new Database;
         if((int)$date%100==0){
-            $db->query("SELECT id,data,evento FROM `eventos` WHERE data > $date and data < $date+32");
+            $db->query("SELECT id,dataInicio,detalhe FROM `eventos` WHERE dataInicio > $date and dataInicio < $date+32");
         }else{
-            $db->query("SELECT id,data,evento FROM `eventos` WHERE data = $date");
+            $db->query("SELECT id,dataInicio,detalhe FROM `eventos` WHERE dataInicio = $date");
         }
         
         $db->executa();

@@ -3,6 +3,8 @@
   background-color: #ccc;
   padding: 10px 10px;
   margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
 }
 .calendar {
     float: left;
@@ -51,11 +53,11 @@
   }
   
   .date {
-    /*width: 28px;
-    height: 28px;*/
     line-height: 28px;
-    text-align: center;
-    font-size: 14px;
+    text-align: left;
+    font-size: 30px;
+    font-family: 'Tac One';
+    padding: 10px 20px;
   }
   
   .date:not(.current-month) {

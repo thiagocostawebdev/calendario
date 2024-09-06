@@ -30,7 +30,7 @@ function geracalendario(mes){
 
 function addEnventos(){
     var saida = converteData(diaSelecionado);
-    listaEventos.push({data: saida,evento:inputText.value});
+    listaEventos.push({dataInicio: saida,detalhe:inputText.value});
     salvaEventos(inputText.value);
     listarEventos();
 }
@@ -53,11 +53,13 @@ function selecionaDia(dia){
 }
 
 function listarEventos(){
+    var dataPadrao;
     var dia_evento = null;
     var saida = "";
     for (eventos in listaEventos){
-        saida += `<div class="evento" id="evento${eventos}">${listaEventos[eventos]["data"]} ${listaEventos[eventos]["evento"]}<img src="./img/bootstrap-icons/trash-fill.svg" onclick="delEventos(${eventos},${listaEventos[eventos]["id"]})"></div>`;
-        var dia_evento = document.getElementById(`day${listaEventos[eventos]["data"]}`);
+        dataPadrao = listaEventos[eventos]["dataInicio"].slice(6,8)+"-"+listaEventos[eventos]["dataInicio"].slice(4,6)+"-"+listaEventos[eventos]["dataInicio"].slice(0,4);
+        saida += `<div class="evento" id="evento${eventos}">${dataPadrao} ${listaEventos[eventos]["detalhe"]}<img src="./img/bootstrap-icons/trash-fill.svg" onclick="delEventos(${eventos},${listaEventos[eventos]["id"]})"></div>`;
+        var dia_evento = document.getElementById(`day${listaEventos[eventos]["dataInicio"]}`);
         if (dia_evento != null){
             dia_evento.style.color = "red";
         }
@@ -94,7 +96,7 @@ function carregaDias(mod){
         geracalendario(saida);
         carregaEventos(converteData(diaSelecionado));
     }
-    xhttp.open("GET", `http://localhost/calendario/calendario/geraDias/${mesExibido}/${anoExibido}`, true);
+    xhttp.open("GET", `http://localhost/calendario/home/geraDias/${mesExibido}/${anoExibido}`, true);
     xhttp.send();
 } 
 

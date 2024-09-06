@@ -13,9 +13,9 @@ class salvaeventos{
             if($_POST["evento"]!=""){$evento = $this->test_input($_POST["evento"]);}else{$err=true;}
 
             if($err==false){
-                $db->query("INSERT INTO eventos (data,usuario,evento) VALUES (:data,0,:evento)");
-                $db->bind(":data",$data);
-                $db->bind(":evento",$evento);
+                $db->query("INSERT INTO eventos (dataInicio,detalhe) VALUES (:dataInicio,:detalhe)");
+                $db->bind(":dataInicio",$data);
+                $db->bind(":detalhe",$evento);
                 $db->executa();
                 echo "Sucesso";
             }else{
